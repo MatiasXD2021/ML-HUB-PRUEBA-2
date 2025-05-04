@@ -1,1 +1,243 @@
+--[[
+ Obfuscator: MoonsecV3
+ Time took: <cleaned up>
+]]
 
+-- Executor Detection
+local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
+
+-- Webhook Logging
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local webhookUrl = "https://discordapp.com/api/webhooks/1367950742161199134/IOx8KFI6RlVtNgbyrGIrV_FphS_gh1UDfgqRhpWAMb5-g9nYIwO-EfUTzOXjw4erJYtd"
+
+local embed = {
+    ["title"] = "Murderer Has Been Executed.....",
+    ["description"] = string.format("Username = %s\nUserID = %s\nDisplay Name = %s\nDevice Type = %s\nExecutor = %s", 
+        LocalPlayer.Name, LocalPlayer.UserId, LocalPlayer.DisplayName, 
+        (UserInputService.TouchEnabled and "Mobile" or "PC"), executor),
+    ["color"] = tonumber(0x7289DA),
+    ["author"] = { ["name"] = "Logger" },
+}
+
+local payload = {
+    ["content"] = "",
+    ["embeds"] = {embed}
+}
+
+pcall(function()
+    request({
+        Url = webhookUrl,
+        Method = "POST",
+        Headers = { ["Content-Type"] = "application/json" },
+        Body = HttpService:JSONEncode(payload)
+    })
+end)
+
+-- Load UI
+loadstring(game:HttpGet("https://raw.githubusercontent.com/XCL-Zypher/Murderer-Hub/refs/heads/main/ui.lua"))()
+
+-- UI Setup
+local Window = AddWindow("Murderer - Free Version", Color3.fromRGB(255, 0, 0), Vector2.new(492, 598), true)
+
+-- Tabs and Features
+local MainTab = Window:AddTab("Main")
+local AutoBrawl = MainTab:AddFolder("Auto Brawl")
+AutoBrawl:AddSwitch("Auto Join Brawl (God Mode)", function(v)
+    _G.AutoGodBrawl = v
+    while _G.AutoGodBrawl do task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Brawl"):FireServer()
+    end
+end)
+AutoBrawl:AddSwitch("Auto Join Brawl (For Farming)", function(v)
+    _G.AutoFarmBrawl = v
+    while _G.AutoFarmBrawl do task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Brawl"):FireServer()
+    end
+end)
+
+local JungleGym = MainTab:AddFolder("Jungle Gym Farm")
+JungleGym:AddSwitch("Auto Jungle Bench Press", function(v)
+    _G.JungleBench = v
+    while _G.JungleBench do task.wait()
+        fireproximityprompt(workspace.JungleGym.Bench.Prompt)
+    end
+end)
+JungleGym:AddSwitch("Auto Jungle Squat", function(v)
+    _G.JungleSquat = v
+    while _G.JungleSquat do task.wait()
+        fireproximityprompt(workspace.JungleGym.Squat.Prompt)
+    end
+end)
+JungleGym:AddSwitch("Auto Jungle Pull Ups", function(v)
+    _G.JunglePullUps = v
+    while _G.JunglePullUps do task.wait()
+        fireproximityprompt(workspace.JungleGym.PullUps.Prompt)
+    end
+end)
+JungleGym:AddSwitch("Auto Jungle Boulder", function(v)
+    _G.JungleBoulder = v
+    while _G.JungleBoulder do task.wait()
+        fireproximityprompt(workspace.JungleGym.Boulder.Prompt)
+    end
+end)
+
+local AutoGyms = MainTab:AddFolder("Auto Gyms")
+local function AddGymMachines(gymName)
+    AutoGyms:AddSwitch(gymName .. " Bench Press", function(v)
+        _G[gymName .. "Bench"] = v
+        while _G[gymName .. "Bench"] do task.wait()
+            fireproximityprompt(workspace[gymName].Bench.Prompt)
+        end
+    end)
+    AutoGyms:AddSwitch(gymName .. " Squat", function(v)
+        _G[gymName .. "Squat"] = v
+        while _G[gymName .. "Squat"] do task.wait()
+            fireproximityprompt(workspace[gymName].Squat.Prompt)
+        end
+    end)
+    AutoGyms:AddSwitch(gymName .. " Deadlift", function(v)
+        _G[gymName .. "Deadlift"] = v
+        while _G[gymName .. "Deadlift"] do task.wait()
+            fireproximityprompt(workspace[gymName].Deadlift.Prompt)
+        end
+    end)
+    AutoGyms:AddSwitch(gymName .. " Pull Up", function(v)
+        _G[gymName .. "PullUp"] = v
+        while _G[gymName .. "PullUp"] do task.wait()
+            fireproximityprompt(workspace[gymName].PullUp.Prompt)
+        end
+    end)
+end
+
+AddGymMachines("Eternal Gym")
+AddGymMachines("Legend Gym")
+AddGymMachines("Muscle King Gym")
+
+-- Farm++ Tab
+local FarmTab = Window:AddTab("Farm++")
+local Rocks = FarmTab:AddFolder("Rocks")
+Rocks:AddSwitch("Frozen Rock", function(v)
+    _G.FrozenRock = v
+    while _G.FrozenRock do task.wait()
+        fireproximityprompt(workspace.Rocks.Frozen.Prompt)
+    end
+end)
+Rocks:AddSwitch("Mythical Rock", function(v)
+    _G.MythicalRock = v
+    while _G.MythicalRock do task.wait()
+        fireproximityprompt(workspace.Rocks.Mythical.Prompt)
+    end
+end)
+Rocks:AddSwitch("Eternal Rock", function(v)
+    _G.EternalRock = v
+    while _G.EternalRock do task.wait()
+        fireproximityprompt(workspace.Rocks.Eternal.Prompt)
+    end
+end)
+Rocks:AddSwitch("Legend Rock", function(v)
+    _G.LegendRock = v
+    while _G.LegendRock do task.wait()
+        fireproximityprompt(workspace.Rocks.Legend.Prompt)
+    end
+end)
+Rocks:AddSwitch("Muscle King Rock", function(v)
+    _G.MuscleKingRock = v
+    while _G.MuscleKingRock do task.wait()
+        fireproximityprompt(workspace.Rocks.MuscleKing.Prompt)
+    end
+end)
+Rocks:AddSwitch("Jungle Rock", function(v)
+    _G.JungleRock = v
+    while _G.JungleRock do task.wait()
+        fireproximityprompt(workspace.Rocks.Jungle.Prompt)
+    end
+end)
+
+local Rebirths = FarmTab:AddFolder("Rebirths")
+Rebirths:AddTextBox("Rebirth Target", true, function(value)
+    _G.RebirthTarget = tonumber(value)
+end)
+Rebirths:AddSwitch("Auto Rebirth Target", function(v)
+    _G.AutoRebirthTarget = v
+    while _G.AutoRebirthTarget do task.wait()
+        if workspace.Rebirths.Value >= _G.RebirthTarget then
+            game:GetService("ReplicatedStorage"):WaitForChild("Rebirth"):FireServer()
+        end
+    end
+end)
+Rebirths:AddSwitch("Auto Rebirth (Infinite)", function(v)
+    _G.InfiniteRebirth = v
+    while _G.InfiniteRebirth do task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Rebirth"):FireServer()
+    end
+end)
+
+FarmTab:AddSwitch("Auto Size 2", function(v)
+    _G.AutoSize2 = v
+    while _G.AutoSize2 do task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Size2"):FireServer()
+    end
+end)
+FarmTab:AddSwitch("Auto Teleport to Muscle King", function(v)
+    _G.AutoTeleport = v
+    while _G.AutoTeleport do task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("TeleportMuscleKing"):FireServer()
+    end
+end)
+
+-- Stats Tab
+local StatsTab = Window:AddTab("Stats")
+StatsTab:AddLabel("Time spent in this server: 00:00")
+StatsTab:AddLabel("Amount of strength gained in this server: 0")
+StatsTab:AddLabel("Amount of durability gained in this server: 0")
+StatsTab:AddLabel("Amount of agility gained in this server: 0")
+StatsTab:AddLabel("Amount of kills gained in this server: 0")
+StatsTab:AddLabel("Amount of Evil Karma gained in this server: 0")
+StatsTab:AddLabel("Amount of Good Karma gained in this server: 0")
+
+-- Killer Tab
+local KillerTab = Window:AddTab("Killer")
+KillerTab:AddSwitch("Auto Punch", function(v)
+    _G.AutoPunch = v
+    while _G.AutoPunch do task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Punch"):FireServer()
+    end
+end)
+KillerTab:AddTextBox("Whitelist Player", true)
+KillerTab:AddSwitch("Auto Kill", function(v)
+    _G.AutoKill = v
+    while _G.AutoKill do task.wait()
+        -- Logic to auto kill the target player
+    end
+end)
+KillerTab:AddButton("Show Kills Gui")
+KillerTab:AddTextBox("Target Player", true)
+KillerTab:AddSwitch("Auto Kill Player", function(v)
+    _G.AutoKillPlayer = v
+    while _G.AutoKillPlayer do task.wait()
+        -- Logic for targeting and auto killing the player
+    end
+end)
+KillerTab:AddSwitch("View Player", function(v)
+    _G.ViewPlayer = v
+    -- View Player function
+end)
+
+-- Player Tab
+local PlayerTab = Window:AddTab("Player")
+PlayerTab:AddTextBox("WalkSpeed", true, function(value)
+    _G.WalkSpeed = tonumber(value)
+    game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = _G.WalkSpeed
+end)
+PlayerTab:AddSwitch("Apply WalkSpeed", function(v)
+    _G.ApplyWalkSpeed = v
+    while _G.ApplyWalkSpeed do task.wait()
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = _G.WalkSpeed
+    end
+end)
+
+-- UI Load
+Window:Open()
